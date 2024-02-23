@@ -1,0 +1,41 @@
+#image-box {
+  height: 280px;
+  width: 280px;
+  border: 1px solid rgb(0, 0, 0, 0.1);
+  display: flex;
+  position: relative;
+}
+
+#image {
+  height: 280px;
+  width: 280px;
+  position: relative;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.point {
+  width: 10px;
+  height: 10px;
+  border: solid 2px;
+  border-radius: 50%;
+  position: absolute;
+  cursor: move;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+#point1 {
+  border-color: red;
+}
+
+#point2 {
+  border-color: blue;
+}
+
+#point3 {
+  border-color: green;
+}
