@@ -40,7 +40,14 @@
   border-color: green;
 }
 
-.border {
-  width: 3px;
-  color: orangered;
+.edge {
+  height: 3px;
+  background-color: transparent;
+  position: absolute;
+  z-index: 4;
+  transform-origin: 0 0;
+  transition: 0.1s ease-in-out;
+}
+.edge:hover {
+  background-color: rgba(259, 69, 0, 0.7);
 }

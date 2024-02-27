@@ -79,7 +79,7 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
     const y1 = point1[key1].y;
     const x2 = point2[key2].x;
     const y2 = point2[key2].y;
-    return (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
+    return Math.atan2(y2 - y1, x2 - x1);
   };
 
   const generateEdgeDiv = (
@@ -89,20 +89,17 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
     y: number,
     key: string
   ) => {
+    const offsetX = 5 * Math.cos(angle);
+    const offsetY = 5 * Math.sin(angle);
     return (
       <div
         key={key}
         className="edge"
         style={{
           width: `${euclideanDistance}px`,
-          height: "2px",
           transform: `rotate(${angle}rad)`,
-          position: "absolute",
-          backgroundColor: "red",
-          zIndex: 4,
-          transformOrigin: "0 0",
-          left: `${x}px`,
-          top: `${y}px`,
+          left: `${x + offsetX}px`,
+          top: `${y + offsetY}px`,
         }}
       />
     );
@@ -124,14 +121,12 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
         />
       ))}
       {positions.map((point, index, array) => {
-        if (index === array.length - 1) return null;
-        const euclideanDistance = calculateEuclideanDistance(
-          point,
-          array[index + 1]
-        );
-        const angle = calculateAngle(point, array[index + 1]);
-        const x = point[Object.keys(point)[0]].x;
-        const y = point[Object.keys(point)[0]].y;
+        const nextPoint = array[(index + 1) % array.length];
+        const euclideanDistance =
+          calculateEuclideanDistance(point, nextPoint) - 9;
+        const angle = calculateAngle(point, nextPoint);
+        const x = point[Object.keys(point)[0]].x + radius;
+        const y = point[Object.keys(point)[0]].y + radius;
         return generateEdgeDiv(euclideanDistance, angle, x, y, `edge-${index}`);
       })}
     </div>
