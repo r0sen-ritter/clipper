@@ -59,6 +59,20 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
     }
   }, [positions, radius]);
 
+  const addNewPointHandler = (e: React.MouseEvent, index: number) => {
+    const imageBox = document.getElementById("image-box");
+    if (!imageBox) return;
+    const rect = imageBox.getBoundingClientRect();
+    const x = e.clientX - rect.left - radius;
+    const y = e.clientY - rect.top - radius;
+    const newPoint = { [`point${positions.length + 1}`]: { x, y } };
+    setPositions((prev) => [
+      ...prev.slice(0, index + 1),
+      newPoint,
+      ...prev.slice(index + 1),
+    ]);
+  };
+
   const calculateEuclideanDistance = (
     point1: PositionPoint,
     point2: PositionPoint
@@ -87,7 +101,8 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
     angle: number,
     x: number,
     y: number,
-    key: string
+    key: string,
+    addNewPointHandler: (e: React.MouseEvent) => void
   ) => {
     const offsetX = 5 * Math.cos(angle);
     const offsetY = 5 * Math.sin(angle);
@@ -101,6 +116,7 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
           left: `${x + offsetX}px`,
           top: `${y + offsetY}px`,
         }}
+        onClick={addNewPointHandler}
       />
     );
   };
@@ -127,7 +143,14 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
         const angle = calculateAngle(point, nextPoint);
         const x = point[Object.keys(point)[0]].x + radius;
         const y = point[Object.keys(point)[0]].y + radius;
-        return generateEdgeDiv(euclideanDistance, angle, x, y, `edge-${index}`);
+        return generateEdgeDiv(
+          euclideanDistance,
+          angle,
+          x,
+          y,
+          `edge-${index}`,
+          (e: React.MouseEvent) => addNewPointHandler(e, index)
+        );
       })}
     </div>
   );
