@@ -39,3 +39,8 @@
 #point3 {
   border-color: green;
 }
+
+.border {
+  width: 3px;
+  color: orangered;
+}
