@@ -3,6 +3,7 @@ import "./ImageBox.css";
 import ContentImage from "/pittsburgh.jpg";
 import Point from "./Point";
 import Edge from "./Edge";
+import { calculatePosition } from "../utils/PolCalc";
 
 interface PositionPoint {
   [key: string]: { x: number; y: number };
@@ -29,21 +30,17 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (dragging) {
-      const imageBox = document.getElementById("image-box");
-      if (!imageBox) return;
-      const rect = imageBox.getBoundingClientRect();
-      let x = e.clientX - rect.left - radius;
-      let y = e.clientY - rect.top - radius;
-      x = Math.max(0, Math.min(x, 280 - 2 * radius));
-      y = Math.max(0, Math.min(y, 280 - 2 * radius));
-      setPositions((prev) =>
-        prev.map((point) => {
-          if (Object.keys(point)[0] === dragging) {
-            return { [dragging]: { x, y } };
-          }
-          return point;
-        })
-      );
+      const newPosition = calculatePosition(e, radius);
+      if (newPosition.x !== 0 || newPosition.y !== 0) {
+        setPositions((prev) =>
+          prev.map((point) => {
+            if (Object.keys(point)[0] === dragging) {
+              return { [dragging]: newPosition };
+            }
+            return point;
+          })
+        );
+      }
     }
   };
 
@@ -62,12 +59,9 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
   }, [positions, radius]);
 
   const addNewPointHandler = (e: React.MouseEvent, index: number) => {
-    const imageBox = document.getElementById("image-box");
-    if (!imageBox) return;
-    const rect = imageBox.getBoundingClientRect();
-    const x = e.clientX - rect.left - radius;
-    const y = e.clientY - rect.top - radius;
-    const newPoint = { [`point${positions.length + 1}`]: { x, y } };
+    const newPoint = {
+      [`point${positions.length + 1}`]: calculatePosition(e, radius),
+    };
     setPositions((prev) => [
       ...prev.slice(0, index + 1),
       newPoint,

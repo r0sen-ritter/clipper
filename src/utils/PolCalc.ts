@@ -25,4 +25,18 @@ const calculateAngle = (point1: PositionPoint, point2: PositionPoint) => {
   return Math.atan2(y2 - y1, x2 - x1);
 };
 
-export { calculateEuclideanDistance, calculateAngle };
+const calculatePosition = (
+  e: React.MouseEvent,
+  radius: number
+): { x: number; y: number } => {
+  const imageBox = document.getElementById("image-box");
+  if (!imageBox) return { x: 0, y: 0 };
+  const rect = imageBox.getBoundingClientRect();
+  let x = e.clientX - rect.left - radius;
+  let y = e.clientY - rect.top - radius;
+  x = Math.max(0, Math.min(x, 280 - 2 * radius));
+  y = Math.max(0, Math.min(y, 280 - 2 * radius));
+  return { x, y };
+};
+
+export { calculateEuclideanDistance, calculateAngle, calculatePosition };
