@@ -9,7 +9,7 @@ interface PointProps {
   handleMouseDown: (id: string) => void;
 }
 
-const Point: React.FC<PointProps> = ({ point, handleMouseDown }) => {
+const Point = ({ point, handleMouseDown }: PointProps) => {
   const id = Object.keys(point)[0];
   const { x, y } = point[id];
   return (
