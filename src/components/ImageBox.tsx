@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./ImageBox.css";
 import ContentImage from "/pittsburgh.jpg";
+import Point from "./Point";
+import Edge from "./Edge";
 
 interface PositionPoint {
   [key: string]: { x: number; y: number };
@@ -73,83 +75,22 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
     ]);
   };
 
-  const calculateEuclideanDistance = (
-    point1: PositionPoint,
-    point2: PositionPoint
-  ) => {
-    const key1 = Object.keys(point1)[0];
-    const key2 = Object.keys(point2)[0];
-    const x1 = point1[key1].x;
-    const y1 = point1[key1].y;
-    const x2 = point2[key2].x;
-    const y2 = point2[key2].y;
-    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-  };
-
-  const calculateAngle = (point1: PositionPoint, point2: PositionPoint) => {
-    const key1 = Object.keys(point1)[0];
-    const key2 = Object.keys(point2)[0];
-    const x1 = point1[key1].x;
-    const y1 = point1[key1].y;
-    const x2 = point2[key2].x;
-    const y2 = point2[key2].y;
-    return Math.atan2(y2 - y1, x2 - x1);
-  };
-
-  const generateEdgeDiv = (
-    euclideanDistance: number,
-    angle: number,
-    x: number,
-    y: number,
-    key: string,
-    addNewPointHandler: (e: React.MouseEvent) => void
-  ) => {
-    const offsetX = 5 * Math.cos(angle);
-    const offsetY = 5 * Math.sin(angle);
-    return (
-      <div
-        key={key}
-        className="edge"
-        style={{
-          width: `${euclideanDistance}px`,
-          transform: `rotate(${angle}rad)`,
-          left: `${x + offsetX}px`,
-          top: `${y + offsetY}px`,
-        }}
-        onClick={addNewPointHandler}
-      />
-    );
-  };
-
   return (
     <div id="image-box" onMouseMove={handleMouseMove}>
       <img id="image" src={ContentImage} />
       {positions.map((point) => (
-        <div
-          key={Object.keys(point)[0]}
-          className="point"
-          id={Object.keys(point)[0]}
-          style={{
-            left: `${Object.values(point)[0].x}px`,
-            top: `${Object.values(point)[0].y}px`,
-          }}
-          onMouseDown={() => handleMouseDown(Object.keys(point)[0])}
-        />
+        <Point point={point} handleMouseDown={handleMouseDown} />
       ))}
       {positions.map((point, index, array) => {
         const nextPoint = array[(index + 1) % array.length];
-        const euclideanDistance =
-          calculateEuclideanDistance(point, nextPoint) - 9;
-        const angle = calculateAngle(point, nextPoint);
-        const x = point[Object.keys(point)[0]].x + radius;
-        const y = point[Object.keys(point)[0]].y + radius;
-        return generateEdgeDiv(
-          euclideanDistance,
-          angle,
-          x,
-          y,
-          `edge-${index}`,
-          (e: React.MouseEvent) => addNewPointHandler(e, index)
+        return (
+          <Edge
+            point={point}
+            nextPoint={nextPoint}
+            index={index}
+            radius={radius}
+            addNewPointHandler={addNewPointHandler}
+          />
         );
       })}
     </div>
