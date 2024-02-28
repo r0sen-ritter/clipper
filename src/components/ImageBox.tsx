@@ -75,18 +75,19 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
       {positions.map((point) => (
         <Point point={point} handleMouseDown={handleMouseDown} />
       ))}
-      {positions.map((point, index, array) => {
-        const nextPoint = array[(index + 1) % array.length];
-        return (
-          <Edge
-            point={point}
-            nextPoint={nextPoint}
-            index={index}
-            radius={radius}
-            addNewPointHandler={addNewPointHandler}
-          />
-        );
-      })}
+      {!dragging &&
+        positions.map((point, index, array) => {
+          const nextPoint = array[(index + 1) % array.length];
+          return (
+            <Edge
+              point={point}
+              nextPoint={nextPoint}
+              index={index}
+              radius={radius}
+              addNewPointHandler={addNewPointHandler}
+            />
+          );
+        })}
     </div>
   );
 };
