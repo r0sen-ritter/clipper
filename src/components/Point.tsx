@@ -1,4 +1,5 @@
 import "./Point.css";
+import { useState } from "react";
 
 interface PositionPoint {
   [key: string]: { x: number; y: number };
@@ -6,19 +7,30 @@ interface PositionPoint {
 
 interface PointProps {
   point: PositionPoint;
-  handleMouseDown: (id: string) => void;
+  handleMouseDown: (
+    id: string,
+    setPointSelected: (bool: boolean) => void,
+    pointSelected: boolean
+  ) => void;
 }
 
 const Point = ({ point, handleMouseDown }: PointProps) => {
+  const [pointSelected, setPointSelected] = useState(false);
+
   const id = Object.keys(point)[0];
   const { x, y } = point[id];
+
   return (
     <div
       key={id}
-      className="point"
       id={id}
-      style={{ left: `${x}px`, top: `${y}px` }}
-      onMouseDown={() => handleMouseDown(id)}
+      className="point"
+      style={{
+        left: `${x}px`,
+        top: `${y}px`,
+        borderColor: `${pointSelected ? "green" : "red"}`,
+      }}
+      onMouseDown={() => handleMouseDown(id, setPointSelected, pointSelected)}
     />
   );
 };

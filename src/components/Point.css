@@ -20,3 +20,10 @@
 #point3 {
   border-color: green;
 }
+
+.color-selector {
+  position: absolute;
+  top: -30px;
+  left: -20px;
+  z-index: 5;
+}

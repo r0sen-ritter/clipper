@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./ImageBox.css";
 import ContentImage from "/pittsburgh.jpg";
 import Point from "./Point";
@@ -17,8 +17,16 @@ interface ImageBoxProps {
 
 const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
   const [dragging, setDragging] = useState<string | null>(null);
+  const [pointsSelected, setPointsSelected] = useState<string[]>([]);
 
-  const handleMouseDown = (id: string) => {
+  const draggingRef = useRef(dragging);
+
+  const handleMouseDown = (
+    id: string,
+    setPointSelected: (bool: boolean) => void,
+    pointSelected: boolean
+  ) => {
+    setPointSelected(!pointSelected);
     setDragging(id);
     window.addEventListener("mouseup", handleMouseUp);
   };
@@ -28,14 +36,15 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
     window.removeEventListener("mouseup", handleMouseUp);
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (dragging) {
+  const handleMouseMove = (e: MouseEvent) => {
+    const currentDragging = draggingRef.current;
+    if (currentDragging) {
       const newPosition = calculatePosition(e, radius);
       if (newPosition.x !== 0 || newPosition.y !== 0) {
         setPositions((prev) =>
           prev.map((point) => {
-            if (Object.keys(point)[0] === dragging) {
-              return { [dragging]: newPosition };
+            if (Object.keys(point)[0] === currentDragging) {
+              return { [currentDragging]: newPosition };
             }
             return point;
           })
@@ -43,6 +52,29 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
       }
     }
   };
+
+  const handleKeyPress = (e: KeyboardEvent) => {
+    console.log(e.key);
+    if (e.key === "Delete") {
+      setPositions((prev) =>
+        prev.filter((point) => !pointsSelected.includes(Object.keys(point)[0]))
+      );
+      setPointsSelected([]);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("keypress", handleKeyPress);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("keypress", handleKeyPress);
+    };
+  }, []);
+
+  useEffect(() => {
+    draggingRef.current = dragging;
+  }, [dragging]);
 
   useEffect(() => {
     const image = document.getElementById("image");
@@ -70,7 +102,7 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
   };
 
   return (
-    <div id="image-box" onMouseMove={handleMouseMove}>
+    <div id="image-box">
       <img id="image" src={ContentImage} />
       {positions.map((point) => (
         <Point point={point} handleMouseDown={handleMouseDown} />

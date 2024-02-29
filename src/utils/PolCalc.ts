@@ -26,7 +26,7 @@ const calculateAngle = (point1: PositionPoint, point2: PositionPoint) => {
 };
 
 const calculatePosition = (
-  e: React.MouseEvent,
+  e: { clientX: number; clientY: number },
   radius: number
 ): { x: number; y: number } => {
   const imageBox = document.getElementById("image-box");
