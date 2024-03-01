@@ -16,3 +16,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
 }
+
+.scaling {
+  pointer-events: none;
+}

@@ -8,22 +8,3 @@
   z-index: 1;
   box-sizing: border-box;
 }
-
-#point1 {
-  border-color: red;
-}
-
-#point2 {
-  border-color: blue;
-}
-
-#point3 {
-  border-color: green;
-}
-
-.color-selector {
-  position: absolute;
-  top: -30px;
-  left: -20px;
-  z-index: 5;
-}
