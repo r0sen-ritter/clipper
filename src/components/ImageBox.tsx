@@ -55,8 +55,9 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
 
   const scalePositions = useCallback(
     (direction: "up" | "down") => {
-      let boundaryFound: boolean = false;
       setPositions((prev) => {
+        let boundaryFound = false;
+
         const relativeCenter = prev.reduce(
           (acc, point) => {
             const key = Object.keys(point)[0];
@@ -66,16 +67,14 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
           { x: 0, y: 0 }
         );
 
-        console.log(boundaryFound);
-
         const newPositions = prev.map((point) => {
           const key = Object.keys(point)[0];
           const { x, y } = point[key];
 
           const shiftedX = x - relativeCenter.x;
           const shiftedY = y - relativeCenter.y;
-          const scaledX = shiftedX * (direction === "up" ? 1.1 : 0.9);
-          const scaledY = shiftedY * (direction === "up" ? 1.1 : 0.9);
+          const scaledX = shiftedX * (direction === "up" ? 1.01 : 0.99);
+          const scaledY = shiftedY * (direction === "up" ? 1.01 : 0.99);
           let newX = scaledX + relativeCenter.x;
           let newY = scaledY + relativeCenter.y;
 
