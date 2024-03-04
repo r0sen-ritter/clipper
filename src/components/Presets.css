@@ -9,7 +9,6 @@
 }
 .preset {
   background-color: rgb(21, 24, 27);
-  border: 1px solid rgb(0, 0, 0, 0.1);
   height: 30%;
   width: 95%;
   display: flex;

@@ -1,9 +1,10 @@
 #image-box {
   height: 280px;
   width: 280px;
-  border: 1px solid rgb(0, 0, 0, 0.1);
+  border: 1px solid orange;
   display: flex;
   position: relative;
+  border-radius: 5px;
 }
 
 #image {

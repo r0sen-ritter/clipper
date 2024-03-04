@@ -8,3 +8,6 @@
   z-index: 1;
   box-sizing: border-box;
 }
+.point:hover {
+  transform: scale(1.2);
+}

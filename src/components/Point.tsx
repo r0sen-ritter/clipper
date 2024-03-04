@@ -22,7 +22,7 @@ const Point = ({ point, handleMouseDown, isSelected }: PointProps) => {
       style={{
         left: `${x}px`,
         top: `${y}px`,
-        borderColor: `${isSelected ? "green" : "red"}`,
+        borderColor: `${isSelected ? "red" : "orange"}`,
       }}
       onMouseDown={() => handleMouseDown(id)}
     />
