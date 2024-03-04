@@ -137,7 +137,7 @@ export const positionsDragValidityHandler = (
       const isUnderPoint = positions.some((point) => {
         const { x, y } = Object.values(point)[0];
         const distance = Math.sqrt((x - e.clientX) ** 2 + (y - e.clientY) ** 2);
-        return distance <= 25;
+        return distance <= 30;
       });
 
       if (!isUnderPoint) {
