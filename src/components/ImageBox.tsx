@@ -4,7 +4,6 @@ import ContentImage from "/pittsburgh.jpg";
 import Point from "./Point";
 import Edge from "./Edge";
 import { calculatePosition, isInsidePolygon } from "../utils/PolCalc";
-import throttle from "lodash.throttle";
 
 interface PositionPoint {
   [key: string]: { x: number; y: number };
@@ -194,6 +193,7 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
     positions: PositionPoint[],
     radius: number
   ) => {
+    if (dragging) return;
     const imageBox = document.getElementById("image-box");
     if (!imageBox) return false;
     const rect = imageBox.getBoundingClientRect();
@@ -209,7 +209,7 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
     window.addEventListener("mouseup", handleMouseUp);
   };
 
-  const handlePositionsDrag = throttle((e: React.MouseEvent) => {
+  const handlePositionsDrag = (e: React.MouseEvent) => {
     const imageBox = document.getElementById("image-box");
     if (!imageBox || !initialMousePosition) return;
     const rect = imageBox.getBoundingClientRect();
@@ -232,9 +232,9 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
         const { x, y } = Object.values(point)[0];
         return (
           x < 0 ||
-          x > rect.width - 2 * radius ||
+          x >= rect.width - 2 * radius ||
           y < 0 ||
-          y > rect.height - 2 * radius
+          y >= rect.height - 2 * radius
         );
       });
 
@@ -243,7 +243,7 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
       }
       setInitialMousePosition({ x, y });
     }
-  }, 100);
+  };
 
   return (
     <div
