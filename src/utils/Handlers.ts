@@ -134,9 +134,17 @@ export const positionsDragValidityHandler = (
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     if (isInsidePolygon(x, y, positions, radius)) {
-      setDragging("dragging");
-      setIsInside(true);
-      setInitialMousePosition({ x, y });
+      const isUnderPoint = positions.some((point) => {
+        const { x, y } = Object.values(point)[0];
+        const distance = Math.sqrt((x - e.clientX) ** 2 + (y - e.clientY) ** 2);
+        return distance <= 25;
+      });
+
+      if (!isUnderPoint) {
+        setDragging("dragging");
+        setIsInside(true);
+        setInitialMousePosition({ x, y });
+      }
     } else {
       return;
     }
