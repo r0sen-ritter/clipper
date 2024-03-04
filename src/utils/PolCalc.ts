@@ -39,4 +39,32 @@ const calculatePosition = (
   return { x, y };
 };
 
-export { calculateEuclideanDistance, calculateAngle, calculatePosition };
+const isInsidePolygon = (
+  x: number,
+  y: number,
+  positions: PositionPoint[],
+  radius: number
+) => {
+  const points = positions.map((point) => {
+    const key = Object.keys(point)[0];
+    return [point[key].x + radius, point[key].y + radius];
+  });
+  let isInside = false;
+  for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
+    const xi = points[i][0];
+    const yi = points[i][1];
+    const xj = points[j][0];
+    const yj = points[j][1];
+    const intersect =
+      yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+    if (intersect) isInside = !isInside;
+  }
+  return isInside;
+};
+
+export {
+  calculateEuclideanDistance,
+  calculateAngle,
+  calculatePosition,
+  isInsidePolygon,
+};

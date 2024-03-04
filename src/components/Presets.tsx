@@ -1,4 +1,5 @@
 import "./Presets.css";
+import { useState } from "react";
 
 interface PositionPoint {
   [key: string]: { x: number; y: number };
@@ -36,26 +37,29 @@ interface PresetsProps {
 const Presets = ({ setPositions }: PresetsProps) => {
   const handlePresetSelection = (id: string) => {
     setPositions(presets[id]);
+    setSelected(id);
   };
+
+  const [selected, setSelected] = useState<string>("");
 
   return (
     <div id="preset-menu">
       <div
-        className="preset"
+        className={`preset ${selected === "rhombus" ? "selected" : ""}`}
         id="rhombus"
         onClick={() => handlePresetSelection("rhombus")}
       >
         Rhombus
       </div>
       <div
-        className="preset"
+        className={`preset ${selected === "pentagon" ? "selected" : ""}`}
         id="pentagon"
         onClick={() => handlePresetSelection("pentagon")}
       >
         Pentagon
       </div>
       <div
-        className="preset"
+        className={`preset ${selected === "hexagon" ? "selected" : ""}`}
         id="hexagon"
         onClick={() => handlePresetSelection("hexagon")}
       >

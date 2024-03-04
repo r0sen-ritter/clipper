@@ -1,6 +1,8 @@
 import ImageBox from "./ImageBox";
 import { useState } from "react";
 import Presets from "./Presets";
+import ClipPath from "./ClipPath";
+import "./Clipper.css";
 
 interface PositionPoint {
   [key: string]: { x: number; y: number };
@@ -17,12 +19,17 @@ const Clipper = () => {
 
   return (
     <>
-      <ImageBox
-        positions={positions}
-        setPositions={setPositions}
-        radius={radius}
-      />
-      <Presets setPositions={setPositions} />
+      <div id="clipper">
+        <div id="image-preset-clip">
+          <ImageBox
+            positions={positions}
+            setPositions={setPositions}
+            radius={radius}
+          />
+          <Presets setPositions={setPositions} />
+        </div>
+        <ClipPath positions={positions} />
+      </div>
     </>
   );
 };
