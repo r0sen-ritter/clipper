@@ -18,6 +18,7 @@
   color: orange;
   gap: 10px;
   transition: 0.1s ease-in-out;
+  cursor: pointer;
 }
 .preset:hover {
   transform: scale(1.05);
