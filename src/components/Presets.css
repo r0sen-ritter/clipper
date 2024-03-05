@@ -31,4 +31,5 @@
 .selected {
   background-color: orange;
   color: black;
+  transform: scale(1.05);
 }
