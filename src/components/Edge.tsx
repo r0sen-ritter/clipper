@@ -10,6 +10,7 @@ interface EdgeProps {
   index: number;
   radius: number;
   addNewPointHandler: (e: React.MouseEvent, index: number) => void;
+  onElementHandler: (e: React.MouseEvent) => void;
 }
 
 const Edge = ({
@@ -18,6 +19,7 @@ const Edge = ({
   index,
   radius,
   addNewPointHandler,
+  onElementHandler,
 }: EdgeProps) => {
   const euclideanDistance = calculateEuclideanDistance(point, nextPoint) - 9;
   const angle = calculateAngle(point, nextPoint);
@@ -36,6 +38,8 @@ const Edge = ({
         top: `${y + offsetY}px`,
       }}
       onClick={(e: React.MouseEvent) => addNewPointHandler(e, index)}
+      onMouseOver={onElementHandler}
+      onMouseLeave={onElementHandler}
     />
   );
 };

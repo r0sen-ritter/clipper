@@ -23,6 +23,7 @@ interface ImageBoxProps {
 }
 
 const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
+  const [onElement, setOnElement] = useState<boolean>(false);
   const [dragging, setDragging] = useState<string | null>(null);
   const [scaling, setScaling] = useState<boolean>(false);
   const [selectedPoint, setSelectedPoint] = useState<string | null>(null);
@@ -66,10 +67,10 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
     setDragging,
     setIsInside,
     setInitialMousePosition,
-    dragging,
     positions,
     radius,
-    handleMouseUp
+    handleMouseUp,
+    onElement
   );
 
   const handleMouseMove = useCallback(
@@ -91,6 +92,10 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
     },
     [radius, setPositions]
   );
+
+  const handleOnElement = () => {
+    setOnElement(!onElement);
+  };
 
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
@@ -146,6 +151,7 @@ const ImageBox = ({ positions, setPositions, radius }: ImageBoxProps) => {
               index={index}
               radius={radius}
               addNewPointHandler={handleAddNewPoint}
+              onElementHandler={handleOnElement}
             />
           );
         })}

@@ -62,7 +62,6 @@ export const scalePositionsHandler = (
 
           newX = Math.max(0, Math.min(newX, 280 - 2 * radius));
           newY = Math.max(0, Math.min(newY, 280 - 2 * radius));
-
           const newPoint = {
             [key]: {
               x: newX,
@@ -121,13 +120,13 @@ export const positionsDragValidityHandler = (
   setInitialMousePosition: React.Dispatch<
     React.SetStateAction<{ x: number; y: number } | null>
   >,
-  dragging: string | null,
   positions: PositionPoint[],
   radius: number,
-  handleMouseUp: () => void
+  handleMouseUp: () => void,
+  onElement: boolean
 ) => {
   return (e: React.MouseEvent) => {
-    if (dragging) return;
+    if (onElement) return;
     const imageBox = document.getElementById("image-box");
     if (!imageBox) return false;
     const rect = imageBox.getBoundingClientRect();
