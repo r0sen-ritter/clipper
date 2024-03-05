@@ -16,6 +16,16 @@
   justify-content: center;
   border-radius: 10px;
   color: orange;
+  gap: 10px;
+  transition: 0.1s ease-in-out;
+}
+.preset:hover {
+  transform: scale(1.05);
+}
+.preset:active {
+  background-color: orange;
+  color: black;
+  transform: scale(0.9);
 }
 .selected {
   background-color: orange;

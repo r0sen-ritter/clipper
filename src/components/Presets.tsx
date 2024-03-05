@@ -1,5 +1,6 @@
 import "./Presets.css";
 import { useState } from "react";
+import { Rhombus, Pentagon, Hexagon } from "./ShapeIcon";
 
 interface PositionPoint {
   [key: string]: { x: number; y: number };
@@ -49,6 +50,7 @@ const Presets = ({ setPositions }: PresetsProps) => {
         id="rhombus"
         onClick={() => handlePresetSelection("rhombus")}
       >
+        <Rhombus />
         Rhombus
       </div>
       <div
@@ -56,6 +58,7 @@ const Presets = ({ setPositions }: PresetsProps) => {
         id="pentagon"
         onClick={() => handlePresetSelection("pentagon")}
       >
+        <Pentagon />
         Pentagon
       </div>
       <div
@@ -63,6 +66,7 @@ const Presets = ({ setPositions }: PresetsProps) => {
         id="hexagon"
         onClick={() => handlePresetSelection("hexagon")}
       >
+        <Hexagon />
         Hexagon
       </div>
     </div>

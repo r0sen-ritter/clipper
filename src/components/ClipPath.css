@@ -5,3 +5,31 @@
   color: orange;
   padding: 5px;
 }
+
+#clip-path-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn {
+  height: 25px;
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(21, 24, 27);
+  color: orange;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  transition: 0.1s ease-in-out;
+}
+.btn:hover {
+  transform: scale(1.1);
+}
+.btn:active {
+  background-color: orange;
+  color: black;
+  transform: scale(0.9);
+}

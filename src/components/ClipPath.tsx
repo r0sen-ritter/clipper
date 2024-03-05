@@ -8,6 +8,13 @@ interface ClipPathProps {
 }
 
 const ClipPath = ({ positions }: ClipPathProps) => {
+  const handleCopy = () => {
+    const clipPathValue = document.getElementById(
+      "clip-path-value"
+    ) as HTMLDivElement;
+    navigator.clipboard.writeText(clipPathValue.innerText);
+  };
+
   const points = positions
     .map((point) => {
       const key = Object.keys(point)[0];
@@ -16,7 +23,14 @@ const ClipPath = ({ positions }: ClipPathProps) => {
       )}%`;
     })
     .join(", ");
-  return <div id="clip-path-value">{`clip-path: polygon(${points});`}</div>;
+  return (
+    <div id="clip-path-container">
+      <div id="clip-path-value">{`clip-path: polygon(${points});`}</div>
+      <button className="btn" onClick={handleCopy}>
+        Copy
+      </button>
+    </div>
+  );
 };
 
 export default ClipPath;

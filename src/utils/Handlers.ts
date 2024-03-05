@@ -78,7 +78,6 @@ export const scalePositionsHandler = (
         scaleFactor -= 0.01;
         newPositions = calculateNewPositions(scaleFactor);
       }
-
       return newPositions;
     });
   };
